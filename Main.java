@@ -20,7 +20,7 @@ public class Main {
         int[] res = teams[0];
 
         for (int i = 1; i < teams.length; i++) {
-            merge(res, teams[i]);
+            res = merge(res, teams[i]);
         }
 
         return res;
@@ -30,17 +30,42 @@ public class Main {
     public static int[] merge(int[] teamA, int[] teamB) {
         int iA = 0;
         int iB = 0;
+        int iRes = 0;
+        int[] res = new int[MEMBERS_NUMBER];
 
-        while (iA < MEMBERS_NUMBER) {
-            if (iB < teamB.length && teamB[iB] > teamA[iA]) {
-                teamA[iA] = teamB[iB];
+        // Защита от бесконечного цикла.
+        if (teamA.length + teamB.length < MEMBERS_NUMBER) {
+            throw new IllegalArgumentException("not enough members in merged teams");
+        }
+
+        while (iRes < MEMBERS_NUMBER) {
+            int toAdd;
+
+            if (iA < teamA.length && iB < teamB.length) {
+                if (teamA[iA] >= teamB[iB]) {
+                    toAdd = teamA[iA];
+
+                    iA++;
+                } else {
+                    toAdd = teamB[iB];
+
+                    iB++;
+                }
+            } else if (iA < teamA.length) {
+                toAdd = teamA[iA];
+
+                iA++;
+            } else {
+                toAdd = teamB[iB];
 
                 iB++;
             }
 
-            iA++;
+            res[iRes] = toAdd;
+
+            iRes++;
         }
 
-        return teamA;
+        return res;
     }
 }
