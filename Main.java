@@ -33,25 +33,10 @@ public class Main {
         int iRes = 0;
         int[] res = new int[MEMBERS_NUMBER];
 
-        // Защита от бесконечного цикла.
-        if (teamA.length + teamB.length < MEMBERS_NUMBER) {
-            throw new IllegalArgumentException("not enough members in merged teams");
-        }
-
         while (iRes < MEMBERS_NUMBER) {
             int toAdd;
 
-            if (iA < teamA.length && iB < teamB.length) {
-                if (teamA[iA] >= teamB[iB]) {
-                    toAdd = teamA[iA];
-
-                    iA++;
-                } else {
-                    toAdd = teamB[iB];
-
-                    iB++;
-                }
-            } else if (iA < teamA.length) {
+            if (teamA[iA] >= teamB[iB]) {
                 toAdd = teamA[iA];
 
                 iA++;
